@@ -26,38 +26,34 @@ def fp_ensure_script_executable():
         cfgparser = ConfigParser()
         cfgparser.readfp(f)
 
-    # Backup old
-    properties_bak_path = properties_path + '.bak'
-    try:
-        os.remove(properties_bak_path)
-    except:
-        pass
+    # Change settings if they not set correctly
+    settings = {
+        "execute_scripts_without_network_restriction": "true",
+        "execute_scripts_without_write_restriction": "true",
+        "execute_scripts_without_exec_restriction": "true",
+        "execute_scripts_without_asking": "true",
+        "execute_scripts_without_file_restriction": "true",
+    }
 
-    shutil.copyfile(properties_path, properties_bak_path)
+    modified = False
+    section = ConfigParser.UNNAMED_SECTION
+    for k, v in settings.items():
+        if cfgparser.get(section, k) != v:
+            cfgparser.set(section, k, v)
+            modified = True
 
-    # Change settings
-    cfgparser.set(
-        ConfigParser.UNNAMED_SECTION,
-        "execute_scripts_without_network_restriction", "true")
+    if modified:
+        # Backup old
+        properties_bak_path = properties_path + '.bak'
+        try:
+            os.remove(properties_bak_path)
+        except:
+            pass
 
-    cfgparser.set(
-        ConfigParser.UNNAMED_SECTION,
-        "execute_scripts_without_write_restriction", "true")
+        shutil.copyfile(properties_path, properties_bak_path)
 
-    cfgparser.set(
-        ConfigParser.UNNAMED_SECTION,
-        "execute_scripts_without_exec_restriction", "true")
-
-    cfgparser.set(
-        ConfigParser.UNNAMED_SECTION,
-        "execute_scripts_without_asking", "true")
-
-    cfgparser.set(
-        ConfigParser.UNNAMED_SECTION,
-        "execute_scripts_without_file_restriction", "true")
-
-    with open(properties_path, 'w') as f:
-        cfgparser.write(f, space_around_delimiters=False)
+        with open(properties_path, 'w') as f:
+            cfgparser.write(f, space_around_delimiters=False)
 
 
 def fp_fix_markdown_title(lines):
