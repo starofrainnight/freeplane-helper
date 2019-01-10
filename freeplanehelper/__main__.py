@@ -17,6 +17,14 @@ from whichcraft import which
 from rabird.core.configparser import ConfigParser
 
 
+def get_supported_formats():
+    return {
+        "md": "Markdown syntax",
+        "odt": "OpenDocument",
+        "pdf": "Netware Printer Definition File. PDF (Portable Document Format)",
+    }
+
+
 def search_cmd(cmd, mode=os.F_OK | os.X_OK, path=None):
     """Given a command, mode, and a PATH string, return the path which
     conforms to the given mode on the PATH, or None if there is no such
@@ -219,9 +227,17 @@ def fp_fix_markdown(md_doc, is_gen_number_sections):
 @click.option(
     "-n", "--number-sections", is_flag=True, help="If generate number sections"
 )
-def main(fp_doc, number_sections):
+@click.option(
+    "-f",
+    "--format",
+    type=click.Choice(get_supported_formats().keys()),
+    default="odt",
+    help="Output format, defaults to 'odt'",
+)
+def main(fp_doc, number_sections, format):
     """A script to convert Freeplane document to Markdown correctly.
     """
+
     fp_ensure_script_executable()
 
     # Copy groovy export script for Freeplane
@@ -243,12 +259,20 @@ def main(fp_doc, number_sections):
 
     fp_fix_markdown(md_doc, number_sections)
 
+    # We only needs the markdown format output
+    if "md" == format:
+        return
+
     # Seems pandoc on Ubuntu 18.04 too old to generate the PDF from
     # markdown file. If you want to generate a correctly PDF file, you must
     # use pandoc to convert this markdown file to odt file, then use libreoffice
     # to fix the section numbers issue, finally generate PDF by libreoffice.
     odt_doc = os.path.splitext(md_doc)[0] + ".odt"
     pypandoc.convert_file(md_doc, "odt", outputfile=odt_doc)
+
+    # We only needs the odt format output
+    if "odt" == format:
+        return
 
     # Generate PDF by libreoffice
 
