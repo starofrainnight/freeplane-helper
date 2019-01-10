@@ -149,6 +149,48 @@ def fp_fix_markdown_references(lines):
         lines[i] = line + "\n"
 
 
+def fp_markdown_add_section_numbers(lines):
+    pattern = r"\s*(#+)(.*)"
+    level_nums = []
+    last_level = 0
+    num = 1
+    for i in range(0, len(lines)):
+        line = lines[i]
+
+        matched = re.match(r"\s*(#+)(.*)", line)
+        if not matched:
+            continue
+
+        level = len(matched.group(1))
+        section = matched.group(2)
+
+        if level == last_level:
+            num += 1
+        elif level > last_level:
+            print("test type : %s" % ([num],))
+            level_nums.append(num)
+            print(level_nums)
+            last_level = level
+            num = 1
+        else:
+            num = level_nums.pop()
+            print(level_nums)
+            num = num + 1
+            last_level = level
+
+        # Convert to string list
+        final_level_nums = level_nums[1:] + [num]
+        final_level_nums = [str(num) for num in final_level_nums]
+
+        line = "%s %s %s" % (
+            matched.group(1),
+            ".".join(final_level_nums),
+            matched.group(2),
+        )
+
+        lines[i] = line + "\n"
+
+
 def fp_fix_markdown(md_doc):
     """Freeplane generated markdown format have some issues:
 
@@ -165,6 +207,7 @@ def fp_fix_markdown(md_doc):
 
     fp_fix_markdown_title(lines)
     fp_fix_markdown_references(lines)
+    fp_markdown_add_section_numbers(lines)
 
     with open(md_doc, "w") as f:
         f.write("".join(lines))
