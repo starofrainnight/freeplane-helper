@@ -167,14 +167,11 @@ def fp_markdown_add_section_numbers(lines):
         if level == last_level:
             num += 1
         elif level > last_level:
-            print("test type : %s" % ([num],))
             level_nums.append(num)
-            print(level_nums)
             last_level = level
             num = 1
         else:
             num = level_nums.pop()
-            print(level_nums)
             num = num + 1
             last_level = level
 
