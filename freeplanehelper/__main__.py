@@ -11,7 +11,6 @@ import shutil
 import subprocess
 import re
 import pypandoc
-import fnmatch
 import glob
 from whichcraft import which
 from rabird.core.configparser import ConfigParser
@@ -21,7 +20,7 @@ def get_supported_formats():
     return {
         "md": "Markdown syntax",
         "odt": "OpenDocument",
-        "pdf": "Netware Printer Definition File. PDF (Portable Document Format)",
+        "pdf": "Netware Printer Definition File. PDF (Portable Document Format)",  # noqa
     }
 
 
@@ -129,7 +128,7 @@ def fp_ensure_script_executable():
         properties_bak_path = properties_path + ".bak"
         try:
             os.remove(properties_bak_path)
-        except:
+        except OSError:
             pass
 
         shutil.copyfile(properties_path, properties_bak_path)
@@ -161,7 +160,6 @@ def fp_fix_markdown_references(lines):
 
 
 def fp_markdown_add_section_numbers(lines):
-    pattern = r"\s*(#+)(.*)"
     level_nums = []
     last_level = 0
     num = 1
@@ -173,7 +171,6 @@ def fp_markdown_add_section_numbers(lines):
             continue
 
         level = len(matched.group(1))
-        section = matched.group(2)
 
         if level == last_level:
             num += 1
