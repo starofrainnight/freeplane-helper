@@ -222,7 +222,24 @@ def fp_fix_markdown(md_doc, is_gen_number_sections):
         f.write("".join(lines))
 
 
-@click.command()
+@click.group()
+def main():
+    """A script to convert Freeplane document to Markdown correctly.
+    """
+    pass
+
+
+@main.command()
+def list_formats():
+    """List supported output formats
+
+    """
+    formats = get_supported_formats()
+    for k, v in formats.items():
+        click.echo("%s\t%s" % (k, v))
+
+
+@main.command()
 @click.argument("fp_doc")
 @click.option(
     "-n", "--number-sections", is_flag=True, help="If generate number sections"
@@ -234,9 +251,8 @@ def fp_fix_markdown(md_doc, is_gen_number_sections):
     default="odt",
     help="Output format, defaults to 'odt'",
 )
-def main(fp_doc, number_sections, format):
-    """A script to convert Freeplane document to Markdown correctly.
-    """
+def convert(fp_doc, number_sections, format):
+    """Convert FreePlane document to specific format document"""
 
     fp_ensure_script_executable()
 
