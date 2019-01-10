@@ -239,14 +239,18 @@ def main(fp_doc):
 
     fp_fix_markdown(md_doc)
 
-    # TODO: Seems my pandoc on Ubuntu 18.04 too old to generate the PDF from
+    # Seems pandoc on Ubuntu 18.04 too old to generate the PDF from
     # markdown file. If you want to generate a correctly PDF file, you must
     # use pandoc to convert this markdown file to odt file, then use libreoffice
     # to fix the section numbers issue, finally generate PDF by libreoffice.
     odt_doc = os.path.splitext(md_doc)[0] + ".odt"
     pypandoc.convert_file(md_doc, "odt", outputfile=odt_doc)
 
-    # Generate PDF by libreoffice (TODO: Still have section numbers issues)
+    # Generate PDF by libreoffice
+
+    # FIXME: We use a tricky way that add section numbers inside markdown for
+    # generate section numbers of odt files, but the section numbers is
+    # different from libreoffice's styled section number!
     libreoffice_cmd = search_cmd("libreoffice*")
     subprocess.call([libreoffice_cmd, "--convert-to", "pdf", odt_doc])
 
