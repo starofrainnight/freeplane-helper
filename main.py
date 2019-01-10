@@ -191,7 +191,7 @@ def fp_markdown_add_section_numbers(lines):
         lines[i] = line + "\n"
 
 
-def fp_fix_markdown(md_doc):
+def fp_fix_markdown(md_doc, is_gen_number_sections):
     """Freeplane generated markdown format have some issues:
 
     1. Title not been correctly generated
@@ -207,7 +207,8 @@ def fp_fix_markdown(md_doc):
 
     fp_fix_markdown_title(lines)
     fp_fix_markdown_references(lines)
-    fp_markdown_add_section_numbers(lines)
+    if is_gen_number_sections:
+        fp_markdown_add_section_numbers(lines)
 
     with open(md_doc, "w") as f:
         f.write("".join(lines))
@@ -215,7 +216,10 @@ def fp_fix_markdown(md_doc):
 
 @click.command()
 @click.argument("fp_doc")
-def main(fp_doc):
+@click.option(
+    "-n", "--number-sections", is_flag=True, help="If generate number sections"
+)
+def main(fp_doc, number_sections):
     """A script to convert Freeplane document to Markdown correctly.
     """
     fp_ensure_script_executable()
@@ -237,7 +241,7 @@ def main(fp_doc):
 
     md_doc = os.path.splitext(os.path.basename(fp_doc))[0] + ".md"
 
-    fp_fix_markdown(md_doc)
+    fp_fix_markdown(md_doc, number_sections)
 
     # Seems pandoc on Ubuntu 18.04 too old to generate the PDF from
     # markdown file. If you want to generate a correctly PDF file, you must
