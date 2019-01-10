@@ -1,4 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""Console script for freeplane-helper."""
 
 import os
 import os.path
