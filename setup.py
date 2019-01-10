@@ -11,10 +11,7 @@ with io.open("README.rst", encoding="utf-8") as readme_file, io.open(
 ) as history_file:
     long_description = readme_file.read() + "\n\n" + history_file.read()
 
-install_requires = [
-    "click>=6.0",
-    # TODO: put package requirements here
-]
+install_requires = ["click>=6.0", "pypandoc", "whichcraft", "rabird.core"]
 
 setup_requires = [
     "pytest-runner",
