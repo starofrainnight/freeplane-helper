@@ -6,6 +6,7 @@ import click
 import shutil
 import subprocess
 import re
+import pypandoc
 from whichcraft import which
 from rabird.core.configparser import ConfigParser
 
@@ -129,6 +130,9 @@ def main(fp_doc):
     # markdown file. If you want to generate a correctly PDF file, you must
     # use pandoc to convert this markdown file to odt file, then use libreoffice
     # to fix the section numbers issue, finally generate PDF by libreoffice.
+    pypandoc.convert_file(
+        md_doc, "odt", outputfile=os.path.splitext(md_doc)[0] + ".odt"
+    )
 
 
 if __name__ == "__main__":
