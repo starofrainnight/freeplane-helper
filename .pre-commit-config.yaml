@@ -17,7 +17,9 @@ repos:
       - id: check-ast
       - id: check-case-conflict
       - id: check-docstring-first
-      - id: end-of-file-fixer
+      # This fixer will lead pre-commit failed when working together with
+      # bumpversion
+      # - id: end-of-file-fixer
       - id: fix-encoding-pragma
       - id: sort-simple-yaml
       - id: trailing-whitespace
