@@ -247,8 +247,8 @@ def list_formats():
     "-f",
     "--format",
     type=click.Choice(get_supported_formats().keys()),
-    default="odt",
-    help="Output format, defaults to 'odt'",
+    default="pdf",
+    help="Output format, defaults to 'pdf'",
 )
 def convert(fp_doc, number_sections, format):
     """Convert FreePlane document to specific format document"""
