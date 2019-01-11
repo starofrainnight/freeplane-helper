@@ -26,7 +26,7 @@ tests_requires = [
 
 setup(
     name="freeplane-helper",
-    version="0.0.4",
+    version="0.0.5",
     description=(
         "A script that help convert FreePlane document to other formats"
     ),
