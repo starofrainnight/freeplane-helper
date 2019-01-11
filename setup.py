@@ -15,7 +15,8 @@ install_requires = ["click>=6.0", "pypandoc", "whichcraft", "rabird.core"]
 
 setup_requires = [
     "pytest-runner",
-    # TODO(starofrainnight): put setup requirements (distutils extensions, etc.) here
+    # TODO(starofrainnight): put setup requirements (distutils extensions, etc.
+    # ) here
 ]
 
 tests_requires = [
@@ -25,8 +26,10 @@ tests_requires = [
 
 setup(
     name="freeplane-helper",
-    version="0.0.3",
-    description="A script that help convert FreePlane document to other formats",
+    version="0.0.4",
+    description=(
+        "A script that help convert FreePlane document to other formats"
+    ),
     long_description=long_description,
     author="Hong-She Liang",
     author_email="starofrainnight@gmail.com",
