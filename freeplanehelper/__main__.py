@@ -280,8 +280,9 @@ def convert(fp_doc, number_sections, format):
 
     # Seems pandoc on Ubuntu 18.04 too old to generate the PDF from
     # markdown file. If you want to generate a correctly PDF file, you must
-    # use pandoc to convert this markdown file to odt file, then use libreoffice
-    # to fix the section numbers issue, finally generate PDF by libreoffice.
+    # use pandoc to convert this markdown file to odt file, then use
+    # libreoffice to fix the section numbers issue, finally generate PDF by
+    # libreoffice.
     odt_doc = os.path.splitext(md_doc)[0] + ".odt"
     pypandoc.convert_file(md_doc, "odt", outputfile=odt_doc)
 
