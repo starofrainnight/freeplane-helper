@@ -39,7 +39,9 @@ def search_cmd(cmd, mode=os.F_OK | os.X_OK, path=None):
 
     def _access_check(fn, mode):
         return (
-            os.path.exists(fn) and os.access(fn, mode) and not os.path.isdir(fn)
+            os.path.exists(fn)
+            and os.access(fn, mode)
+            and not os.path.isdir(fn)
         )
 
     # If we're given a path with a directory part, look it up directly
